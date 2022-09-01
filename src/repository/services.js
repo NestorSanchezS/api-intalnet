@@ -1,4 +1,4 @@
-const db = require("./../database/mysql")
+const db = require("../database/mysql")
 
 
 async function createService({name, type}) {
