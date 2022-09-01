@@ -1,10 +1,11 @@
+const mysql = require("mysql2")
 const dotenv = require("dotenv");
 dotenv.config();
 
 
 class MySql {
     constructor() {
-        this.db = mysql.createconnection({
+        this.db = mysql.createConnection({
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
             password: process.env.DB_PASS,
@@ -14,10 +15,10 @@ class MySql {
 
         this.db.connect( err => {
             if (err) {
-                console.log('Error en la conexión de la base de datos', err);
+                console.log('ERROR: on database connection', err);
                 return;
             }
-            console.log('Base de datos conectada correctamente');
+            console.log('database ready');
         });
     }
 
@@ -53,6 +54,6 @@ class Singleton {
     }
 }
 
-db = Singleton().instance()
+const db = new Singleton().instance()
 
 module.exports = db
