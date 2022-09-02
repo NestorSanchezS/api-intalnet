@@ -12,6 +12,7 @@ services:
         ports:
             - 3306:3306
         volumes:
+            - ./src/database/migrations/db_schema.sql:/docker-entrypoint-initdb.d/initdb.sql
             - dbdata:/var/lib/mysql
 
     api:
