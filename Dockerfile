@@ -6,6 +6,8 @@ COPY package*.json ./
 
 RUN npm install
 
+RUN npm install pm2 -g
+
 COPY . .
 
-CMD [ "node", "src/index.js" ]
+CMD [ "pm2-runtime", "src/index.js" ]
