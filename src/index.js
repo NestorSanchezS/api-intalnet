@@ -1,7 +1,9 @@
 const express = require("express")
+require('express-async-errors');
 const morgan = require("morgan")
 
 const { cors } = require("./middlewares/cors")
+const { errors } = require("./middlewares/errors")
 const routes = require("./routers")
 
 app = express()
@@ -15,6 +17,9 @@ app.use(express.urlencoded({extended: true}));
 // routes
 app.use("/ping", (req, res) => res.send("pong"))
 app.use("/api/v1", routes)
+
+// error handling
+app.use(errors)
 
 // run
 const port = process.env.PORT || 3300 

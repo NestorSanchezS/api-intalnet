@@ -35,16 +35,24 @@ router.get("/:id", async (req, res) => {
 
 
 router.put("/:id", async (req, res) => {
-    const resp = await updatePlan(
-        req.params.id, req.body.name, req.body.services
-    )
+    const planInDb = await retrievePlanByName(req.body.name)
+    if (planInDb && planInDb.id != req.params.id) {
+        return res.status(400).json({
+            error: `The plan ${planInDb.id} has this name`
+        })
+    }
+    const resp = await updatePlan(req.params.id, req.body)
     res.json(resp)
 })
 
 
 router.delete("/:id", async (req, res) => {
+    const plan = await retrievePlan(req.params.id)
+    if (!plan) return res.status(404).send()
+
     const resp = await deletePlan(req.params.id)
-    res.json(resp)
+    if (resp) res.status(204).send()
+    else res.status(400).json({error: "Error on delete"})
 })
 
 

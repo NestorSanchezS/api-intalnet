@@ -1,19 +1,13 @@
-const { listServices } = require("./services")
+const { listServices, retrieveService } = require("./services")
 
 const db = require("../database/mysql")
 
 
-async function createPlan({name, services}) {
-    sql = "INSERT INTO plans (NAME) VALUES (?)"
-    let resp = await db.execute(sql, [name])
-    const plan_id = resp.insertedId
-
-    if (services) {
-        for (const service in services) {
-            await addServiceToPlan(plan_id, service.id)
-        }
-    }
-
+async function createPlan({name, ui_params, services}) {
+    const sql = "INSERT INTO plans (NAME, UI_PARAMS) VALUES (?, ?)"
+    let resp = await db.execute(sql, [name, JSON.stringify(ui_params)])
+    const plan_id = resp.insertId
+    await setPlanServices(plan_id, services)
     return await retrievePlan(plan_id)
 }
 
@@ -52,29 +46,36 @@ async function retrievePlanByName(name) {
 
 
 async function retrievePlan(id) {
-    sql = "SELECT * FROM plans WHERE id = ? LIMIT 1"
-    plans = await db.execute(sql, [id])
-    return plans.length > 0 ? plans[0] : undefined
+    const sql = "SELECT * FROM plans WHERE id = ? LIMIT 1"
+    const plans = await db.execute(sql, [id])
+    const plan = plans.length > 0 ? plans[0] : undefined
+    if (plan) plan.services = await listPlanServices(id)
+    return plan
 }
 
 
-async function updatePlan(id, name, services) {
-    sql = "UPDATE plans SET name = ? WHERE id = ?"
-    resp = await db.execute(sql, [name, id])
+async function updatePlan(id, {name, ui_params, services}) {
+    sql = "UPDATE plans SET name = ?, ui_params = ? WHERE id = ?"
+    resp = await db.execute(sql, [name, JSON.stringify(ui_params), id])
+    await setPlanServices(id, services)
+    return await retrievePlan(id)
+}
 
+
+async function setPlanServices(plan_id, services) {
     if (services) {
-        await removeAllPlanServices(id)
-        for (const service of services)
-            await addServiceToPlan(id, service.id)
+        await removeAllPlanServices(plan_id)
+        for (const service of services) {
+            const serviceInDb = await retrieveService(service.id)
+            if (serviceInDb) await addServiceToPlan(plan_id, service.id)
+        }
     }
-    return resp
 }
-
 
 async function deletePlan(id) {
     sql = "DELETE FROM plans WHERE id = ?"
     resp = await db.execute(sql, [id])
-    return resp
+    return resp.affectedRows > 0
 }
 
 
@@ -96,7 +97,7 @@ async function listPlanServices(plan_id) {
     const sql = `
         SELECT * FROM services AS s
         INNER JOIN services_plans AS sp
-        ON s.id = sp.services_id AND sp.plan_id = ?
+        ON s.id = sp.service_id AND sp.plan_id = ?
     `
     const resp = await db.execute(sql, [plan_id])
     return resp
