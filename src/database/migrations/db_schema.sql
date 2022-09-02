@@ -29,3 +29,10 @@ CREATE TABLE IF NOT EXISTS cities_plans (
     FOREIGN KEY (city_id) REFERENCES cities (id),
     FOREIGN KEY (plan_id) REFERENCES plans (id)
 );
+
+
+CREATE TABLE IF NOT EXISTS frequent_questions (
+    id       INT PRIMARY KEY AUTO_INCREMENT,
+    question VARCHAR(500)  NOT NULL,
+    answer   VARCHAR(1500) NOT NULL
+);

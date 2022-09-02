@@ -1,13 +1,15 @@
 const { Router } = require("express")
 
-const cityRoutes = require("./cities")
-const planRoutes = require("./plans")
-const serviceRoutes = require("./services")
+const citiesRoutes = require("./cities")
+const plansRoutes = require("./plans")
+const servicesRoutes = require("./services")
+const questionsRoutes = require("./questions")
 
 const router = Router()
 
-router.use("/cities", cityRoutes)
-router.use("/plans", planRoutes)
-router.use("/services", serviceRoutes)
+router.use("/cities", citiesRoutes)
+router.use("/plans", plansRoutes)
+router.use("/services", servicesRoutes)
+router.use("/questions", questionsRoutes)
 
 module.exports = router
