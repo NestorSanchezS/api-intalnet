@@ -21,8 +21,11 @@ services:
             - "${PORT}:${PORT}"
         depends_on:
             - database
+        volumes:
+            - product-images:/app/src/public/products
         env_file:
             - .env
     
 volumes:
     dbdata:
+    product-images:

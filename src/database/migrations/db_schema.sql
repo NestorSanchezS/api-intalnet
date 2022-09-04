@@ -43,13 +43,13 @@ CREATE TABLE IF NOT EXISTS products (
     name        VARCHAR(500) NOT NULL,
     description VARCHAR(1500) NOT NULL,
     price       DOUBLE NOT NULL
-)
+);
 
 
 CREATE TABLE IF NOT EXISTS images (
     id          INT PRIMARY KEY AUTO_INCREMENT,
     path        VARCHAR(1500) NOT NULL
-)
+);
 
 
 CREATE TABLE product_images (
@@ -57,4 +57,4 @@ CREATE TABLE product_images (
     image_id    INT NOT NULL,
     FOREIGN KEY (product_id) REFERENCES products (id),
     FOREIGN KEY (image_id)   REFERENCES images (id)
-)
+);

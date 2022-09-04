@@ -36,7 +36,7 @@ async function retrieveProductByName(name) {
     const sql = "SELECT * FROM products WHERE name = ?"
     const products = await db.execute(sql, [name])
     const product = products.length > 0 ? products[0] : undefined
-    product.images = await listProductImages(product.id)
+    if (product) product.images = await listProductImages(product.id)
     return product
 }
 
