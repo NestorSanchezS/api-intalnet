@@ -184,7 +184,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 4,\n    \"name\": \"Classic Plus\",\n    \"ui_params\": {\n        \"img\": \"speed\",\n        \"bgcolor\": \"#0000\"\n    },\n    \"services\": [\n        {\"id\": 1},\n        {\"id\": 2},\n        {\"id\": 3}\n    ]\n}",
+							"raw": "{\n    \"name\": \"Classic Pro\",\n    \"ui_params\": {\n        \"img\": \"speed\",\n        \"bgcolor\": \"#0000\"\n    },\n    \"services\": [\n        {\n            \"id\": 1,\n            \"name\": \"Service 3\",\n            \"type\": \"internet\"\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Service 1\",\n            \"type\": \"internet\"\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -206,7 +206,7 @@
 							"variable": [
 								{
 									"key": "plan_id",
-									"value": "4"
+									"value": "1"
 								}
 							]
 						}
@@ -220,7 +220,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Classic Pro Plus\",\n    \"ui_params\": {\n        \"bgcolor\": \"#0000\",\n        \"img\": \"speed\"\n    },\n    \"services\": [\n        {\"id\": 5},\n        {\"id\": 6},\n        {\"id\": 7}\n    ]\n}",
+							"raw": "{\n    \"name\": \"Classic Pro Plus\",\n    \"ui_params\": {\n        \"bgcolor\": \"#0000\",\n        \"img\": \"speed\"\n    },\n    \"services\": [\n        {\"id\": 1},\n        {\"id\": 2},\n        {\"id\": 3}\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -283,7 +283,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"price\": 30000 \n}",
+									"raw": "{\n    \"price\": 35000 \n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -306,11 +306,11 @@
 									"variable": [
 										{
 											"key": "city_id",
-											"value": "4"
+											"value": "1"
 										},
 										{
 											"key": "plan_id",
-											"value": "4"
+											"value": "1"
 										}
 									]
 								}
@@ -418,37 +418,7 @@
 							]
 						}
 					},
-					"response": [
-						{
-							"name": "List cities",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{domain}}/api/v1/planes/:municipio_id",
-									"host": [
-										"{{domain}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"planes",
-										":municipio_id"
-									],
-									"variable": [
-										{
-											"key": "municipio_id",
-											"value": null
-										}
-									]
-								}
-							},
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": "[\n    {\n        \"id\": 1,\n        \"nombre\": \"Planeta Rica\"\n    },\n    {\n        \"id\": 2,\n        \"nombre\": \"Montería\"\n    },\n    {\n        \"id\": 3,\n        \"nombre\": \"Valencia\"\n    }\n]"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Retrieve city",
@@ -469,42 +439,12 @@
 							"variable": [
 								{
 									"key": "city_id",
-									"value": "4"
+									"value": "1"
 								}
 							]
 						}
 					},
-					"response": [
-						{
-							"name": "Retrieve city",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{domain}}/api/v1/cities/:city_id",
-									"host": [
-										"{{domain}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"cities",
-										":city_id"
-									],
-									"variable": [
-										{
-											"key": "city_id",
-											"value": "2"
-										}
-									]
-								}
-							},
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": "{\n    \"id\": 2,\n    \"name\": \"Monteria\",\n    \"plans\": []\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Create city",
@@ -532,39 +472,7 @@
 							]
 						}
 					},
-					"response": [
-						{
-							"name": "Create city",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"name\": \"Monteria\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{domain}}/api/v1/cities",
-									"host": [
-										"{{domain}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"cities"
-									]
-								}
-							},
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": "{\n    \"id\": 2,\n    \"name\": \"Monteria\"\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Update city",
@@ -599,46 +507,7 @@
 							]
 						}
 					},
-					"response": [
-						{
-							"name": "Update city",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"name\": \"Planeta Rica\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{domain}}/api/v1/cities/:city_id",
-									"host": [
-										"{{domain}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"cities",
-										":city_id"
-									],
-									"variable": [
-										{
-											"key": "city_id",
-											"value": "2"
-										}
-									]
-								}
-							},
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": "{\n    \"id\": 2,\n    \"name\": \"Planeta Rica\",\n    \"plans\": []\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Delete city",
@@ -664,37 +533,7 @@
 							]
 						}
 					},
-					"response": [
-						{
-							"name": "Delete city",
-							"originalRequest": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "{{domain}}/api/v1/cities/:city_id",
-									"host": [
-										"{{domain}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"cities",
-										":city_id"
-									],
-									"variable": [
-										{
-											"key": "city_id",
-											"value": "3"
-										}
-									]
-								}
-							},
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": null
-						}
-					]
+					"response": []
 				}
 			]
 		},
@@ -727,7 +566,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Service 3\",\n    \"type\": \"internet\"\n}",
+							"raw": "{\n    \"name\": \"Service 1\",\n    \"type\": \"internet\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -750,7 +589,7 @@
 					"response": []
 				},
 				{
-					"name": "List services Copy",
+					"name": "Delete service",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -768,6 +607,235 @@
 							"variable": [
 								{
 									"key": "service_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Images",
+					"item": [
+						{
+							"name": "Upload product images",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image1",
+											"type": "file",
+											"src": "/Users/personal/Downloads/house.jpeg"
+										},
+										{
+											"key": "image2",
+											"type": "file",
+											"src": "/Users/personal/Downloads/university.jpeg"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{domain}}/api/v1/products/:product_id/images",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										":product_id",
+										"images"
+									],
+									"variable": [
+										{
+											"key": "product_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete product image",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{domain}}/api/v1/products/:product_id/images/:image_id",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										":product_id",
+										"images",
+										":image_id"
+									],
+									"variable": [
+										{
+											"key": "product_id",
+											"value": "1"
+										},
+										{
+											"key": "image_id",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "List products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/v1/products",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/v1/products/:product_id",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								":product_id"
+							],
+							"variable": [
+								{
+									"key": "product_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Product 5\",\n    \"description\": \"Product numero 5\",\n    \"price\": 1600\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/v1/products",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Product 3 updated\",\n    \"description\": \"Product numero 4 updated\",\n    \"price\": 970000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/v1/products/:product_id",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								":product_id"
+							],
+							"variable": [
+								{
+									"key": "product_id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve product Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/v1/products/:product_id",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								":product_id"
+							],
+							"variable": [
+								{
+									"key": "product_id",
 									"value": "3"
 								}
 							]
