@@ -1,6 +1,7 @@
 const express = require("express")
 require('express-async-errors');
 const morgan = require("morgan")
+const fileUpload = require("express-fileupload")
 
 const { cors } = require("./middlewares/cors")
 const { errors } = require("./middlewares/errors")
@@ -13,6 +14,8 @@ app.use(cors);
 app.use(morgan(process.env.LOG_FORMAT || "tiny"))
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(fileUpload({useTempFiles : true, tempFileDir : '/tmp/'}));
+app.use(express.static("src/public"))
 
 // routes
 app.use("/ping", (req, res) => res.send("pong"))
