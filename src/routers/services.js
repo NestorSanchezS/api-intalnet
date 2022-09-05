@@ -1,5 +1,5 @@
 const { Router } = require("express")
-const { retrieveCityByName } = require("../repository/cities")
+const { levelStaff, levelSuperUser } = require("../middlewares/permissions")
 const { createService, allServices, deleteService, retrieveServiceBy } = require("../repository/services")
 
 
@@ -12,7 +12,7 @@ router.get("", async (req, res) => {
 })
 
 
-router.post("", async (req, res) => {
+router.post("", [levelStaff], async (req, res) => {
     const serviceInDb = await retrieveServiceBy(req.body.name, req.body.type)
     if (serviceInDb) {
         return res.status(404).json({
@@ -24,7 +24,7 @@ router.post("", async (req, res) => {
 })
 
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [levelSuperUser], async (req, res) => {
     await deleteService(req.params.id)
     res.status(204).send()
 })

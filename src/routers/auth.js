@@ -20,7 +20,7 @@ router.post("/login", async (req, res) => {
 
     delete user.password
     const token = jwt.sign(
-        user,
+        {user},
         process.env.SECRET,
         { expiresIn: process.env.JWT_EXPIRE_TIME_MINUTES * 60 }
     )

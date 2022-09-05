@@ -3,6 +3,7 @@ const { Router } = require("express")
 const { createImage, updateImage, retrieveImage, deleteImage } = require("../repository/images")
 
 const { listProducts, retrieveProduct, retrieveProductByName, createProduct, updateProduct, deleteProduct, addProductImage, detachProductImage } = require("./../repository/products")
+const { levelStaff, levelAdmin, levelSuperUser } = require("../middlewares/permissions")
 
 
 const router = Router()
@@ -21,7 +22,7 @@ router.get("/:id", async (req, res) => {
 })
 
 
-router.post("", async (req, res) => {
+router.post("", [levelStaff], async (req, res) => {
     const productInDb = await retrieveProductByName(req.body.name)
     if (productInDb)
         return res.status(400)
@@ -32,7 +33,7 @@ router.post("", async (req, res) => {
 })
 
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", [levelAdmin], async (req, res) => {
     const productInDb = await retrieveProductByName(req.body.name)
     if (productInDb && productInDb.id != req.params.id)
         return res.status(404)
@@ -43,7 +44,7 @@ router.put("/:id", async (req, res) => {
 })
 
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [levelSuperUser], async (req, res) => {
     if (!retrieveProduct(req.params.id))
         return res.status(404).json({error: "Not found"})
 
@@ -52,7 +53,7 @@ router.delete("/:id", async (req, res) => {
 })
 
 
-router.post("/:id/images", async (req, res) => {
+router.post("/:id/images", [levelStaff], async (req, res) => {
     if (!await retrieveProduct(req.params.id))
         return res.status(404).send()
 
@@ -75,7 +76,7 @@ router.post("/:id/images", async (req, res) => {
 })
 
 
-router.delete("/:id/images/:image_id", async (req, res) => {
+router.delete("/:id/images/:image_id", [levelAdmin], async (req, res) => {
     if (!await retrieveProduct(req.params.id))
         return res.status(404).send()
 

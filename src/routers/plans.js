@@ -1,4 +1,5 @@
 const { Router } = require("express")
+const { levelStaff, levelAdmin, levelSuperUser } = require("../middlewares/permissions")
 const { 
     allPlans, deletePlan, retrievePlan, updatePlan,
     createPlan,
@@ -15,7 +16,7 @@ router.get("", async (req, res) => {
 })
 
 
-router.post("", async (req, res) => {
+router.post("", [levelStaff], async (req, res) => {
     const planInDb = await retrievePlanByName(req.body.name)
     if (planInDb) {
         return res.status(400).json({
@@ -34,7 +35,7 @@ router.get("/:id", async (req, res) => {
 })
 
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", [levelAdmin], async (req, res) => {
     const planInDb = await retrievePlanByName(req.body.name)
     if (planInDb && planInDb.id != req.params.id) {
         return res.status(400).json({
@@ -46,7 +47,7 @@ router.put("/:id", async (req, res) => {
 })
 
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [levelSuperUser], async (req, res) => {
     const plan = await retrievePlan(req.params.id)
     if (!plan) return res.status(404).send()
 

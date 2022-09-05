@@ -1,4 +1,5 @@
 const { Router } = require("express")
+const { levelStaff, levelSuperUser } = require("../middlewares/permissions")
 const { listQuestions, createQuestion, updateQuestion, deleteQuestion, retrieveQuestion } = require("../repository/questions")
 
 
@@ -11,14 +12,13 @@ router.get("", async (req, res) => {
 })
 
 
-router.post("", async (req, res) => {
+router.post("", [levelStaff], async (req, res) => {
     const question = await createQuestion(req.body)
     res.json(question)
 })
 
 
-
-router.put("/:id", async (req, res) => {
+router.put("/:id", [levelStaff], async (req, res) => {
     let question = await retrieveQuestion(req.params.id)
     if (!question) return res.status(404).json({error: "Not found"})
 
@@ -27,7 +27,7 @@ router.put("/:id", async (req, res) => {
 })
 
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [levelSuperUser], async (req, res) => {
     const question = await retrieveQuestion(req.params.id)
     if (!question) return res.status(404).send()
 

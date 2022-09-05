@@ -5,4 +5,4 @@ async function errors(error, req, res, next) {
 }
 
 
-module.exports = {errors}
+module.exports = errors

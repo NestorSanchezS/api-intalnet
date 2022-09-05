@@ -1,4 +1,5 @@
 const { Router } = require("express")
+const { levelAdmin, levelStaff, levelSuperUser } = require("../middlewares/permissions")
 const { 
     createCity, deleteCity, listCities, retrieveCity,
     updateCity, retrieveCityByName, addPlanToCity, setCityPlanPrice, removeCityPlanRelation
@@ -24,7 +25,7 @@ router.get("/:id", async (req, res) => {
 })
 
 
-router.post("", async (req, res) => {
+router.post("", [levelStaff], async (req, res) => {
     if (await retrieveCityByName(req.body.name)) {
         return res.json({error: "this city already exists"})
     }
@@ -33,7 +34,7 @@ router.post("", async (req, res) => {
 })
 
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", [levelAdmin], async (req, res) => {
     const cityInDb = await retrieveCityByName(req.body.name)
     if (cityInDb && cityInDb.id != req.params.id) {
         return res.json({error: `The city ${cityInDb.id} has this name`})
@@ -45,7 +46,7 @@ router.put("/:id", async (req, res) => {
 })
 
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [levelSuperUser], async (req, res) => {
     const city = await retrieveCity(req.params.id)
     if (!city) return res.status(404).send()
 
@@ -56,7 +57,7 @@ router.delete("/:id", async (req, res) => {
 
 // CITIES PLANS
 
-router.post("/:id/plans/:plan_id/", async (req, res) => {
+router.post("/:id/plans/:plan_id/", [levelStaff], async (req, res) => {
     let city = await retrieveCity(req.params.id)
     if (!city) return res.status(400).json({error: "City does not exists"})
 
@@ -74,7 +75,7 @@ router.post("/:id/plans/:plan_id/", async (req, res) => {
 })
 
 
-router.put("/:id/plans/:plan_id/", async (req, res) => {
+router.put("/:id/plans/:plan_id/", [levelStaff], async (req, res) => {
     const city = await setCityPlanPrice(
         req.params.id, req.params.plan_id, req.body.price
     )
@@ -82,7 +83,7 @@ router.put("/:id/plans/:plan_id/", async (req, res) => {
 })
 
 
-router.delete("/:id/plans/:plan_id/", async (req, res) => {
+router.delete("/:id/plans/:plan_id/", [levelSuperUser], async (req, res) => {
     const city = await removeCityPlanRelation(
         req.params.id, req.params.plan_id
     )
