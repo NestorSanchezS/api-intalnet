@@ -5,7 +5,7 @@ const fileUpload = require("express-fileupload")
 
 const { cors } = require("./middlewares/cors")
 const { errors } = require("./middlewares/errors")
-const routes = require("./routers")
+
 
 app = express()
 
@@ -19,7 +19,7 @@ app.use(express.static("src/public"))
 
 // routes
 app.use("/ping", (req, res) => res.send("pong"))
-app.use("/api/v1", routes)
+app.use("/api/v1", require("./routers"))
 
 // error handling
 app.use(errors)

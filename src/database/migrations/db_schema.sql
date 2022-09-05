@@ -52,9 +52,20 @@ CREATE TABLE IF NOT EXISTS images (
 );
 
 
-CREATE TABLE product_images (
+CREATE TABLE IF NOT EXISTS product_images (
     product_id  INT NOT NULL,
     image_id    INT NOT NULL,
     FOREIGN KEY (product_id) REFERENCES products (id),
     FOREIGN KEY (image_id)   REFERENCES images (id)
 );
+
+
+CREATE TABLE IF NOT EXISTS users (
+    id        INT PRIMARY KEY AUTO_INCREMENT,
+    name      VARCHAR(100) NOT NULL,
+    email     VARCHAR(150) NOT NULL,
+    password  VARCHAR(500) NOT NULL,
+    rol       VARCHAR(50)  NOT NULL,
+    is_active BOOLEAN DEFAULT false
+);
+
