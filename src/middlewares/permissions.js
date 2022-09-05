@@ -23,5 +23,5 @@ const levelStaff = validatePermission([STAFF, ADMIN, SUPERUSER])
 
 
 module.exports = {
-    levelAdmin, levelStaff, levelSuperUser
+    levelAdmin, levelStaff, levelSuperUser, SUPERUSER, ADMIN, STAFF
 }

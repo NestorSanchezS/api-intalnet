@@ -1,7 +1,8 @@
 const express = require("express")
 require('express-async-errors');
 const morgan = require("morgan")
-const fileUpload = require("express-fileupload")
+const fileUpload = require("express-fileupload");
+const createRootUserIfNotExists = require("./scripts/create_superuser");
 
 
 app = express()
@@ -24,6 +25,8 @@ app.use(require("./middlewares/errors"))
 
 // run
 const port = process.env.PORT || 3300 
-app.listen(port, () => {
+app.listen(port, async () => {
     console.log("server on port", port);
+
+    await createRootUserIfNotExists()
 });
