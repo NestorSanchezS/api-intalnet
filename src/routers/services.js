@@ -1,6 +1,6 @@
 const { Router } = require("express")
 const { levelStaff, levelSuperUser } = require("../middlewares/permissions")
-const { createService, allServices, deleteService, retrieveServiceBy } = require("../repository/services")
+const { createService, allServices, deleteService, retrieveServiceBy, retrieveService, updateService } = require("../repository/services")
 
 
 const router = Router()
@@ -20,6 +20,16 @@ router.post("", [levelStaff], async (req, res) => {
         })
     }
     const service = await createService(req.body)
+    res.json(service)
+})
+
+
+router.put("/:id", async (req, res) => {
+    if (!await retrieveService(req.params.id)) {
+        return res.status(404).send()
+    }
+
+    const service = await updateService(req.params.id, req.body)
     res.json(service)
 })
 

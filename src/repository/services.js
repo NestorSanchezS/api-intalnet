@@ -39,6 +39,13 @@ async function allServices() {
 }
 
 
+async function updateService(id, {name, type}) {
+    const sql = "UPDATE services SET name = ?, type = ? WHERE id = ?"
+    await db.execute(sql, [name, type, id])
+    return await retrieveService(id)
+}
+
+
 async function deleteService(id) {
     const sql = "DELETE FROM services WHERE id = ?"
     const resp = await db.execute(sql, [id])
@@ -48,5 +55,5 @@ async function deleteService(id) {
 
 module.exports = {
     createService, listServices, deleteService,
-    allServices, retrieveServiceBy, retrieveService
+    allServices, retrieveServiceBy, retrieveService, updateService
 }
