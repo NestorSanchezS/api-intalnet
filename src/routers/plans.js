@@ -17,12 +17,6 @@ router.get("", async (req, res) => {
 
 
 router.post("", [levelStaff], async (req, res) => {
-    const planInDb = await retrievePlanByName(req.body.name)
-    if (planInDb) {
-        return res.status(400).json({
-            error: "this plan already exists"
-        })
-    }
     const plan = await createPlan(req.body)
     res.json(plan)
 })
@@ -36,12 +30,6 @@ router.get("/:id", async (req, res) => {
 
 
 router.put("/:id", [levelAdmin], async (req, res) => {
-    const planInDb = await retrievePlanByName(req.body.name)
-    if (planInDb && planInDb.id != req.params.id) {
-        return res.status(400).json({
-            error: `The plan ${planInDb.id} has this name`
-        })
-    }
     const resp = await updatePlan(req.params.id, req.body)
     res.json(resp)
 })
