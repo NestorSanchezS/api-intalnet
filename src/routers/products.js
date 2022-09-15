@@ -4,6 +4,7 @@ const { createImage, updateImage, retrieveImage, deleteImage } = require("../rep
 
 const { listProducts, retrieveProduct, retrieveProductByName, createProduct, updateProduct, deleteProduct, addProductImage, detachProductImage } = require("./../repository/products")
 const { levelStaff, levelAdmin, levelSuperUser } = require("../middlewares/permissions")
+const { retrieveCategory } = require("../repository/categories")
 
 
 const router = Router()
@@ -27,6 +28,11 @@ router.post("", [levelStaff], async (req, res) => {
     if (productInDb)
         return res.status(400)
                   .json({error: `Product ${productInDb.id} has this name`})
+
+    for (const category of req.body.categories) {
+        if (!await retrieveCategory(category))
+            return res.status(400).json({error: `Category '${category}' does not exist`})
+    }
     
     const product = await createProduct(req.body)
     res.json(product)
@@ -40,6 +46,11 @@ router.put("/:id", [levelAdmin], async (req, res) => {
     const productInDb = await retrieveProductByName(req.body.name)
     if (productInDb && productInDb.id != req.params.id)
         return res.status(400).json({error: `Product ${productInDb.id} has this name`})
+
+    for (const category of req.body.categories) {
+        if (!await retrieveCategory(category))
+            return res.status(400).json({error: `Category '${category}' does not exist`})
+    }
 
     const product = await updateProduct(req.params.id, req.body)
     res.json(product)

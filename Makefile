@@ -2,7 +2,6 @@ build:
 	docker compose build
 
 up: build
-	docker compose up -d database
 	docker compose up api
 
 down:

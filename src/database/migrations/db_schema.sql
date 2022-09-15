@@ -37,10 +37,11 @@ CREATE TABLE IF NOT EXISTS frequent_questions (
 );
 
 CREATE TABLE IF NOT EXISTS products (
-    id          INT PRIMARY KEY AUTO_INCREMENT,
-    name        VARCHAR(500) NOT NULL,
-    description VARCHAR(1500) NOT NULL,
-    price       DOUBLE NOT NULL
+    id              INT PRIMARY KEY AUTO_INCREMENT,
+    name            VARCHAR(500) NOT NULL,
+    description     VARCHAR(1500) NOT NULL,
+    price           DOUBLE NOT NULL,
+    previous_price  DOUBLE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS images (

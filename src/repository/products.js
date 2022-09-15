@@ -2,12 +2,14 @@ const db = require("../database/mysql")
 const { retrieveCategory } = require("./categories")
 
 
-async function createProduct({name, description, price, categories}) {
+async function createProduct(
+    {name, description, price, previous_price, categories}
+) {
     const sql = `
-        INSERT INTO products (name, description, price)
-        VALUES (?, ?, ?)
+        INSERT INTO products (name, description, price, previous_price)
+        VALUES (?, ?, ?, ?)
     `
-    const resp = await db.execute(sql, [name, description, price])
+    const resp = await db.execute(sql, [name, description, price, previous_price])
     const id = resp.insertId
     if (categories) await resetProductCategories(id, categories)
     return await retrieveProduct(id)
@@ -47,12 +49,15 @@ async function retrieveProductByName(name) {
 }
 
 
-async function updateProduct(id, {name, description, price, categories}) {
+async function updateProduct(
+    id, {name, description, price, previous_price, categories}
+) {
     const sql = `
-        UPDATE products SET name = ?, description = ?, price = ?
+        UPDATE products 
+        SET name = ?, description = ?, price = ?, previous_price = ?
         WHERE id = ?
     `
-    await db.execute(sql, [name, description, price, id])
+    await db.execute(sql, [name, description, price, previous_price, id])
 
     if (categories) await resetProductCategories(id, categories)
     return await retrieveProduct(id)
