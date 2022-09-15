@@ -879,7 +879,7 @@
 							"variable": [
 								{
 									"key": "product_id",
-									"value": "1"
+									"value": "6"
 								}
 							]
 						}
@@ -910,7 +910,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Product 5\",\n    \"description\": \"Product numero 5\",\n    \"price\": 1600\n}",
+							"raw": "{\n    \"name\": \"Product 7\",\n    \"description\": \"Product numero 7\",\n    \"price\": 1200,\n    \"previous_price\": 1500,\n    \"categories\": [\"Category 2\", \"Category 1\"]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -944,7 +944,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Product 3 updated\",\n    \"description\": \"Product numero 4 updated\",\n    \"price\": 970000\n}",
+							"raw": "{\n    \"name\": \"Product 3 updated\",\n    \"description\": \"Product numero 4 updated\",\n    \"price\": 970000,\n    \"previous_price\": 100000,\n    \"categories\": [\"Category 3\", \"Category 2\", \"Category 1\"]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -965,7 +965,7 @@
 							"variable": [
 								{
 									"key": "product_id",
-									"value": "3"
+									"value": "1"
 								}
 							]
 						}
@@ -1248,6 +1248,85 @@
 								{
 									"key": "user_id",
 									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "List categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/v1/categories",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Category 3\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/v1/categories/",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/v1/categories/:category_name",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								":category_name"
+							],
+							"variable": [
+								{
+									"key": "category_name",
+									"value": "Category 1"
 								}
 							]
 						}
