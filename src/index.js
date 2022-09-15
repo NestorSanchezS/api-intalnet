@@ -3,7 +3,6 @@ require('express-async-errors');
 const morgan = require("morgan")
 const fileUpload = require("express-fileupload");
 const createRootUserIfNotExists = require("./scripts/create_superuser");
-const db = require("./database/mysql");
 const { connectDatabase } = require("./scripts/database");
 
 
