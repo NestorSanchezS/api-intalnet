@@ -855,6 +855,13 @@
 								"api",
 								"v1",
 								"products"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "Category 1",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -879,7 +886,7 @@
 							"variable": [
 								{
 									"key": "product_id",
-									"value": "6"
+									"value": "3"
 								}
 							]
 						}
@@ -944,7 +951,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Product 3 updated\",\n    \"description\": \"Product numero 4 updated\",\n    \"price\": 970000,\n    \"previous_price\": 100000,\n    \"categories\": [\"Category 3\", \"Category 2\", \"Category 1\"]\n}",
+							"raw": "{\n    \"name\": \"Product 6\",\n    \"description\": \"Product numero 6\",\n    \"price\": 1200,\n    \"previous_price\": 1500,\n    \"categories\": [\"Category 1\", \"Category 2\"]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -965,7 +972,7 @@
 							"variable": [
 								{
 									"key": "product_id",
-									"value": "1"
+									"value": "3"
 								}
 							]
 						}
