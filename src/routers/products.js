@@ -11,7 +11,7 @@ const router = Router()
 
 
 router.get("", async (req, res) => {
-    const products = await listProducts()
+    const products = await listProducts(req.query)
     res.json(products)
 })
 

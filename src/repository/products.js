@@ -1,3 +1,4 @@
+const e = require("express")
 const db = require("../database/mysql")
 const { retrieveCategory } = require("./categories")
 
@@ -23,9 +24,17 @@ async function attachRelations(product) {
 }
 
 
-async function listProducts() {
-    const sql = "SELECT * FROM products"
-    let products = await db.execute(sql)
+async function listProducts({category}) {
+    let sql = "SELECT * FROM products", params = []
+    if (category) {
+        sql = `
+            SELECT p.* FROM products AS p
+            INNER JOIN products_categories AS pc
+            ON p.id = pc.product_id AND pc.category_name = ?
+        `
+        params = [category]
+    }
+    let products = await db.execute(sql, params)
     products = await Promise.all(products.map(p => attachRelations(p)))
     return products
 }
