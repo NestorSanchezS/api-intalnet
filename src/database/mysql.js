@@ -4,7 +4,7 @@ dotenv.config();
 
 
 class MySql {
-    constructor() {
+    connect() {
         this.db = mysql.createConnection({
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
@@ -13,13 +13,12 @@ class MySql {
             dateStrings: true
         });
 
-        this.db.connect( err => {
-            if (err) {
-                console.log('ERROR: on database connection', err);
-                return;
-            }
-            console.log('database ready');
-        });
+        return new Promise((resolve, reject) => {
+            this.db.connect( err => {
+                if (err) return reject(`ERROR: database ${err}`);
+                resolve()
+            })
+        })
     }
 
     execute(sql, args) {

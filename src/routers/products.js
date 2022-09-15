@@ -34,10 +34,12 @@ router.post("", [levelStaff], async (req, res) => {
 
 
 router.put("/:id", [levelAdmin], async (req, res) => {
+    if (!await retrieveProduct(req.params.id))
+        return res.status(404).json({error: "Not found"})
+    // validate if this name exist
     const productInDb = await retrieveProductByName(req.body.name)
     if (productInDb && productInDb.id != req.params.id)
-        return res.status(404)
-                  .json({error: `Product ${productInDb.id} has this name`})
+        return res.status(400).json({error: `Product ${productInDb.id} has this name`})
 
     const product = await updateProduct(req.params.id, req.body)
     res.json(product)
@@ -52,6 +54,7 @@ router.delete("/:id", [levelSuperUser], async (req, res) => {
     res.status(204).send()
 })
 
+// IMAGES
 
 router.post("/:id/images", [levelStaff], async (req, res) => {
     if (!await retrieveProduct(req.params.id))
@@ -95,5 +98,6 @@ router.delete("/:id/images/:image_id", [levelAdmin], async (req, res) => {
         res.status(500).json({error})
     }
 })
+
 
 module.exports = router

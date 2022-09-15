@@ -30,13 +30,11 @@ CREATE TABLE IF NOT EXISTS cities_plans (
     FOREIGN KEY (plan_id) REFERENCES plans (id)
 );
 
-
 CREATE TABLE IF NOT EXISTS frequent_questions (
     id       INT PRIMARY KEY AUTO_INCREMENT,
     question VARCHAR(500)  NOT NULL,
     answer   VARCHAR(1500) NOT NULL
 );
-
 
 CREATE TABLE IF NOT EXISTS products (
     id          INT PRIMARY KEY AUTO_INCREMENT,
@@ -45,12 +43,10 @@ CREATE TABLE IF NOT EXISTS products (
     price       DOUBLE NOT NULL
 );
 
-
 CREATE TABLE IF NOT EXISTS images (
     id          INT PRIMARY KEY AUTO_INCREMENT,
     path        VARCHAR(1500) NOT NULL
 );
-
 
 CREATE TABLE IF NOT EXISTS product_images (
     product_id  INT NOT NULL,
@@ -59,6 +55,16 @@ CREATE TABLE IF NOT EXISTS product_images (
     FOREIGN KEY (image_id)   REFERENCES images (id)
 );
 
+CREATE TABLE IF NOT EXISTS categories (
+    name VARCHAR(100) PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS products_categories (
+    product_id  INT NOT NULL,
+    category_name VARCHAR(100) NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES products (id),
+    FOREIGN KEY (category_name) REFERENCES categories (name)
+);
 
 CREATE TABLE IF NOT EXISTS users (
     id        INT PRIMARY KEY AUTO_INCREMENT,

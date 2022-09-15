@@ -1,9 +1,8 @@
-setup:
+build:
 	docker compose build
-	docker compose up -d database
-	sleep 10
 
-up: setup
+up: build
+	docker compose up -d database
 	docker compose up api
 
 down:

@@ -3,6 +3,8 @@ require('express-async-errors');
 const morgan = require("morgan")
 const fileUpload = require("express-fileupload");
 const createRootUserIfNotExists = require("./scripts/create_superuser");
+const db = require("./database/mysql");
+const { connectDatabase } = require("./scripts/database");
 
 
 app = express()
@@ -26,7 +28,8 @@ app.use(require("./middlewares/errors"))
 // run
 const port = process.env.PORT || 3300 
 app.listen(port, async () => {
-    console.log("server on port", port);
-
+    await connectDatabase()
     await createRootUserIfNotExists()
+
+    console.log("OK: Server on port", port);
 });

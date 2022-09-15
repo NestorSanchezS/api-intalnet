@@ -1,24 +1,30 @@
 const db = require("../database/mysql")
+const { retrieveCategory } = require("./categories")
 
-const { createImage } = require("./images")
 
-
-async function createProduct({name, description, price}) {
+async function createProduct({name, description, price, categories}) {
     const sql = `
         INSERT INTO products (name, description, price)
         VALUES (?, ?, ?)
     `
     const resp = await db.execute(sql, [name, description, price])
-    return await retrieveProduct(resp.insertId)
+    const id = resp.insertId
+    if (categories) await resetProductCategories(id, categories)
+    return await retrieveProduct(id)
+}
+
+
+async function attachRelations(product) {
+    product.images = await listProductImages(product.id)
+    product.categories = await listProductCategories(product.id)
+    return product
 }
 
 
 async function listProducts() {
     const sql = "SELECT * FROM products"
-    const products = await db.execute(sql)
-    for (const product of products) {
-        product.images = await listProductImages(product.id)
-    }
+    let products = await db.execute(sql)
+    products = await Promise.all(products.map(p => attachRelations(p)))
     return products
 }
 
@@ -26,8 +32,8 @@ async function listProducts() {
 async function retrieveProduct(id) {
     const sql = "SELECT * FROM products WHERE id = ?"
     const products = await db.execute(sql, [id])
-    const product = products.length > 0 ? products[0] : undefined
-    if (product) product.images = await listProductImages(product.id)
+    let product = products.length > 0 ? products[0] : undefined
+    if (product) product = attachRelations(product)
     return product
 }
 
@@ -36,17 +42,19 @@ async function retrieveProductByName(name) {
     const sql = "SELECT * FROM products WHERE name = ?"
     const products = await db.execute(sql, [name])
     const product = products.length > 0 ? products[0] : undefined
-    if (product) product.images = await listProductImages(product.id)
+    if (product) attachRelations(product)
     return product
 }
 
 
-async function updateProduct(id, {name, description, price}) {
+async function updateProduct(id, {name, description, price, categories}) {
     const sql = `
         UPDATE products SET name = ?, description = ?, price = ?
         WHERE id = ?
     `
     await db.execute(sql, [name, description, price, id])
+
+    if (categories) await resetProductCategories(id, categories)
     return await retrieveProduct(id)
 }
 
@@ -57,6 +65,7 @@ async function deleteProduct(id) {
     return resp.affectedRows > 0
 }
 
+// IMAGES 
 
 async function addProductImage(product_id, image_id) {
     const sql = `
@@ -86,9 +95,50 @@ async function listProductImages(id) {
     return resp
 }
 
+// CATEGORIES
+
+async function listProductCategories(id) {
+    const sql = `
+        SELECT c.name FROM categories AS c
+        INNER JOIN products_categories AS pc
+            ON pc.category_name = c.name AND pc.product_id = ?
+    `
+    const resp = await db.execute(sql, [id])
+    const categoryNames = resp.map(c => c.name)
+    return categoryNames
+}
+
+
+async function removeAllProductCategory(product_id) {
+    const sql = `
+        DELETE FROM products_categories 
+        WHERE product_id = ?
+    `
+    await db.execute(sql, [product_id])
+}
+
+
+async function resetProductCategories(product_id, categories) {
+    await removeAllProductCategory(product_id)
+    for (const category of categories) {
+        const categoryInDb = await retrieveCategory(category)
+        if (!categoryInDb) {
+            console.log(`WARN: Category ${category} not found`)
+            continue
+        }
+
+        const sql = `
+            INSERT INTO products_categories 
+                (product_id, category_name)
+            VALUES (?, ?)
+        `
+        await db.execute(sql, [product_id, category])
+    }
+}
+
 
 module.exports = {
     retrieveProduct, createProduct, retrieveProductByName,
     updateProduct, deleteProduct, listProducts, addProductImage,
-    listProductImages, detachProductImage
+    listProductImages, detachProductImage, removeAllProductCategory
 }
