@@ -13,6 +13,15 @@ class MySql {
             dateStrings: true
         });
 
+        this.db.on('error', function(err) {
+            console.log('db error', err);
+            if(err.code === 'PROTOCOL_CONNECTION_LOST') { 
+                this.connect()
+            } else {
+                throw err;
+            }
+        });
+
         return new Promise((resolve, reject) => {
             this.db.connect( err => {
                 if (err) return reject(`ERROR: database ${err}`);
