@@ -9,3 +9,5 @@ docker tag nestorsanchezz/intalnet_api:$version nestorsanchezz/intalnet_api:late
 
 docker push nestorsanchezz/intalnet_api:$version
 docker push nestorsanchezz/intalnet_api:latest
+
+ssh -i ./server-key.pem ubuntu@intalnettelecomunicaciones.com "cd /home/ubuntu/IntalnetConfigServer && make reload-api" 
